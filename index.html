@@ -21,10 +21,10 @@
   <body>
     <div id="chat-root"></div>
     <script>
-      const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573'; // Your App ID
+      const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573';
       const userId = 'test-coach';
       const nickname = 'Test Coach';
-      const channelUrl = 'sendbird_group_channel_1234567890_abcd1234'; // Your channel ID
+      const channelUrl = 'sendbird_group_channel_342071019_b30a33b81a5661b28075df53e2630052c2fd4451';
 
       const sb = SendbirdUIKit.init({
         appId,
@@ -33,12 +33,15 @@
 
       sb.connect(userId, { nickname })
         .then(() => {
+          console.log("Connected as", userId);
           SendbirdUIKit.GroupChannel.createGroupChannel({
             channelUrl,
             rootSelector: '#chat-root',
           });
         })
-        .catch(console.error);
+        .catch((error) => {
+          console.error("Connection failed:", error);
+        });
     </script>
   </body>
 </html>
