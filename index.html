@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Vype Chat - Test Coach</title>
-    <script src="https://cdn.jsdelivr.net/npm/@sendbird/uikit-web@3.5.2/dist/uikit.min.js"></script>
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        font-family: Arial, sans-serif;
-      }
-      #chat-root {
-        height: 100vh;
-        width: 100vw;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="chat-root"></div>
-    <script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vype Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@sendbird/uikit-web@3.5.2/dist/uikit.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+    #app {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    (async () => {
       const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573';
       const userId = 'test-coach';
       const nickname = 'Test Coach';
       const channelUrl = 'sendbird_group_channel_342071019_b30a33b81a5661b28075df53e2630052c2fd4451';
 
-      const sb = SendbirdUIKit.init({
+      const UIKit = window.SendbirdUIKit;
+
+      const uikit = await UIKit.init({
         appId,
-        modules: [SendbirdUIKit.GroupChannelModule],
+        userId,
+        nickname,
+        modules: [UIKit.groupChannel],
+        enableUsingDefaultUserProfile: true,
+        useReaction: true,
       });
 
-      sb.connect(userId, { nickname })
-        .then(() => {
-          SendbirdUIKit.GroupChannel.createGroupChannel({
-            channelUrl,
-            rootSelector: '#chat-root',
-          });
-        })
-        .catch((error) => {
-          console.error("Connection failed:", error);
-        });
-    </script>
-  </body>
+      await uikit.start({
+        targetElement: document.getElementById('app'),
+        // Load a specific group channel
+        groupChannel: {
+          channelUrl,
+        },
+      });
+    })().catch((error) => {
+      console.error('Sendbird Init Error:', error);
+      document.body.innerHTML = `<p style="padding:20px;color:red;">Failed to load chat. See console for details.</p>`;
+    });
+  </script>
+</body>
 </html>
