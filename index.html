@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Vype Chat - Test Coach</title>
-    <script src="https://unpkg.com/sendbird-uikit/dist/sendbird-uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@sendbird/uikit-web@3.5.2/dist/uikit.min.js"></script>
     <style>
       html, body {
         margin: 0;
@@ -33,7 +33,6 @@
 
       sb.connect(userId, { nickname })
         .then(() => {
-          console.log("Connected as", userId);
           SendbirdUIKit.GroupChannel.createGroupChannel({
             channelUrl,
             rootSelector: '#chat-root',
