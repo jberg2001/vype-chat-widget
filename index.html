@@ -22,12 +22,12 @@
     <div id="chat-root"></div>
     <script>
       const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573'; // Your App ID
-      const userId = 'test-coach'; // Dynamic if needed
+      const userId = 'test-coach';
       const nickname = 'Test Coach';
 
       const sb = SendbirdUIKit.init({
         appId,
-        modules: [SendbirdUIKit.GroupChannelModule], // Enables group channels
+        modules: [SendbirdUIKit.GroupChannelModule],
       });
 
       sb.connect(userId, { nickname })
