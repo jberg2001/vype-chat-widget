@@ -24,6 +24,7 @@
       const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573'; // Your App ID
       const userId = 'test-coach';
       const nickname = 'Test Coach';
+      const channelUrl = 'sendbird_group_channel_1234567890_abcd1234'; // Your channel ID
 
       const sb = SendbirdUIKit.init({
         appId,
@@ -32,14 +33,9 @@
 
       sb.connect(userId, { nickname })
         .then(() => {
-          SendbirdUIKit.GroupChannelList.createGroupChannelList({
+          SendbirdUIKit.GroupChannel.createGroupChannel({
+            channelUrl,
             rootSelector: '#chat-root',
-            onChannelSelect: (channel) => {
-              SendbirdUIKit.GroupChannel.createGroupChannel({
-                channelUrl: channel.url,
-                rootSelector: '#chat-root',
-              });
-            },
           });
         })
         .catch(console.error);
