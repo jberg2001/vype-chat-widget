@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Vype Chat - Test Coach</title>
     <script src="https://unpkg.com/sendbird-uikit/dist/sendbird-uikit.min.js"></script>
     <style>
       html, body {
         margin: 0;
+        padding: 0;
         height: 100%;
-        font-family: sans-serif;
+        width: 100%;
+        font-family: Arial, sans-serif;
       }
       #chat-root {
         height: 100vh;
@@ -19,15 +21,26 @@
   <body>
     <div id="chat-root"></div>
     <script>
-      const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573';
-      const userId = 'test-coach';
+      const appId = '77F42E09-EA78-4764-AA56-E4A0275CF573'; // Your App ID
+      const userId = 'test-coach'; // Dynamic if needed
       const nickname = 'Test Coach';
 
-      const sb = SendbirdUIKit.init({ appId });
+      const sb = SendbirdUIKit.init({
+        appId,
+        modules: [SendbirdUIKit.GroupChannelModule], // Enables group channels
+      });
 
-      sb.connect(userId, nickname)
+      sb.connect(userId, { nickname })
         .then(() => {
-          SendbirdUIKit.createChannelList({ rootSelector: '#chat-root' });
+          SendbirdUIKit.GroupChannelList.createGroupChannelList({
+            rootSelector: '#chat-root',
+            onChannelSelect: (channel) => {
+              SendbirdUIKit.GroupChannel.createGroupChannel({
+                channelUrl: channel.url,
+                rootSelector: '#chat-root',
+              });
+            },
+          });
         })
         .catch(console.error);
     </script>
